@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: pg_snowflake
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: petdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Постоянное хранилище данных
+      - ./migrations:/docker-entrypoint-initdb.d  # SQL-скрипты для инициализации
+      - ./data:/data  # CSV-файлы для загрузки
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user1 -d petdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
