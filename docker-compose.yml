@@ -10,9 +10,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data  # Постоянное хранилище данных
-      - ./migrations:/docker-entrypoint-initdb.d  # SQL-скрипты для инициализации
-      - ./data:/data  # CSV-файлы для загрузки
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+      - ./data:/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user1 -d petdb"]
       interval: 5s
